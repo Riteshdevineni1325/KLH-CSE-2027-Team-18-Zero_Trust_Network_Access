@@ -1,0 +1,9 @@
+id,resource_name,display_name,description,sensitivity_level,api_endpoint
+1,FINANCIAL_DATA,Financial Accounts,Q3 Ledgers Audit Reports and Banking Data,HIGH,/api/protected/financial-data
+2,INTERNAL_DOCUMENTS,Internal Documentation,Engineering Specs and Architecture Blueprints,MEDIUM,/api/protected/internal-documents
+3,EMPLOYEE_DIRECTORY,Employee Directory,Staff Directory and Corporate Contact Info,LOW,/api/protected/employee-directory
+4,HR_RECORDS,HR Records,Employee Compensation Files and Personnel Records,HIGH,/api/protected/hr-records
+5,SOURCE_CODE_REPO,Source Code Repository,Proprietary Core Git Codebase Repositories,HIGH,/api/protected/source-code-repo
+6,ADMIN_CONSOLE,Admin Console,Root Zero Trust Configuration and Security Controls,CRITICAL,/api/protected/admin-console
+7,NETWORK_TOPOLOGY,Network Topology,Internal Routing Firewall Rules and Infrastructure,CRITICAL,/api/protected/network-topology
+8,AUDIT_LOGS,Security Audit Logs,Immutable PEP Decision Records and Audit Trails,HIGH,/api/protected/audit-logs

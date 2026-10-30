@@ -1,0 +1,3 @@
+id,admin_session_id,admin_username,target_username,hashed_key,expires_at,used,used_at,created_at
+1,sess-s505-superadmin,superadmin,dave,$2a$10$Dow8berTR/lGMBGHHT4XuOy3Xr4pAXFbnkFTCv3FHBJVHJnJ.LXz2,2026-10-24 12:30:00,true,2026-10-24 11:32:00,2026-10-24 11:30:00
+2,sess-s505-superadmin,superadmin,bob,$2a$10$Dow8berTR/lGMBGHHT4XuOy3Xr4pAXFbnkFTCv3FHBJVHJnJ.LXz2,2026-10-20 18:00:00,true,2026-10-20 17:15:00,2026-10-20 17:00:00

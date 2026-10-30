@@ -1,0 +1,7 @@
+id,username,ip_address,device_info,device_trust_status,location,login_time,failed_login_attempts,session_activity
+1,alice,192.168.1.10,Windows 11/10 (Chrome Workstation),TRUSTED,UNKNOWN,2026-09-24 08:32:00,0,NORMAL
+2,bob,192.168.1.11,macOS (Safari Workstation),TRUSTED,UNKNOWN,2026-09-24 08:47:00,2,NORMAL
+3,carol,192.168.1.20,Linux (Firefox Workstation),TRUSTED,UNKNOWN,2026-09-24 09:02:00,0,NORMAL
+4,dave,10.0.0.55,Windows 11/10 (Edge Workstation),TRUSTED,UNKNOWN,2026-09-24 09:12:00,1,NORMAL
+5,eve,10.0.0.88,Android (Chrome Mobile),UNTRUSTED,UNKNOWN,2026-09-24 09:17:00,5,SUSPICIOUS
+6,eve,203.0.113.99,Untrusted-Foreign-Hardware,UNKNOWN,UNKNOWN,2026-09-24 09:27:00,5,SUSPICIOUS

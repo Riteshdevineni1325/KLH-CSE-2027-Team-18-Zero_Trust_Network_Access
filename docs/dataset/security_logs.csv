@@ -1,0 +1,23 @@
+id,username,event_type,ip_address,session_id,description,severity,event_time
+1,carol,LOGIN_SUCCESS,192.168.1.25,sess-c303-carol-soc,Security analyst authenticated successfully from SOC workstation,INFO,2026-10-24 08:45:00
+2,carol,PEP_ALLOW,192.168.1.25,sess-c303-carol-soc,Policy Enforcement: Allowed access to AUDIT_LOGS under policy 'Audit Logs — Security Analyst Trusted',INFO,2026-10-24 08:50:00
+3,alice,LOGIN_SUCCESS,192.168.1.10,sess-a101-alice-off,User authenticated successfully from office network,INFO,2026-10-24 09:15:00
+4,alice,PEP_ALLOW,192.168.1.10,sess-a101-alice-off,Policy Enforcement: Allowed access to EMPLOYEE_DIRECTORY under policy 'Employee Directory — All Users',INFO,2026-10-24 09:20:00
+5,bob,LOGIN_SUCCESS,172.16.10.15,sess-b202-bob-home,User authenticated via approved teleworker VPN,INFO,2026-10-24 10:20:00
+6,alice,PEP_ALLOW,192.168.1.10,sess-a101-alice-off,Policy Enforcement: Allowed access to FINANCIAL_DATA under policy 'Financial Data — Office Trusted',INFO,2026-10-24 10:14:00
+7,bob,PEP_ALLOW,172.16.10.15,sess-b202-bob-home,Policy Enforcement: Allowed access to INTERNAL_DOCUMENTS under policy 'Internal Docs — Trusted Home',INFO,2026-10-24 11:05:00
+8,superadmin,LOGIN_SUCCESS,127.0.0.1,sess-s505-superadmin,Administrator authenticated into root management console,INFO,2026-10-24 11:00:00
+9,superadmin,PEP_ALLOW,127.0.0.1,sess-s505-superadmin,Policy Enforcement: Allowed access to ADMIN_CONSOLE under policy 'Admin Console — Admin Office',INFO,2026-10-24 11:05:00
+10,superadmin,PEP_ALLOW,127.0.0.1,sess-s505-superadmin,Policy Enforcement: Allowed access to NETWORK_TOPOLOGY under policy 'Network Topology — Admin Office Trusted',INFO,2026-10-24 11:15:00
+11,bob,PEP_DENY,172.16.10.15,sess-b201-bob-ipad,Policy Enforcement: Denied access to FINANCIAL_DATA under explicit deny policy 'Deny Unregistered — Financial',WARN,2026-10-15 21:02:00
+12,dave,LOGIN_FAILED,10.0.0.55,,Failed password verification attempt 1 of 5,WARN,2026-10-23 16:32:10
+13,dave,LOGIN_FAILED,10.0.0.55,,Failed password verification attempt 2 of 5,WARN,2026-10-23 16:34:25
+14,dave,LOGIN_FAILED,10.0.0.55,,Failed password verification attempt 3 of 5,WARN,2026-10-23 16:36:50
+15,dave,LOGIN_FAILED,10.0.0.55,,Failed password verification attempt 4 of 5,HIGH,2026-10-23 16:39:45
+16,dave,ACCOUNT_LOCKED,10.0.0.55,,Account locked due to consecutive authentication failures,HIGH,2026-10-23 16:39:46
+17,eve,LOGIN_FAILED,203.0.113.99,,Failed login attempt from blacklisted subnet 203.0.113.0/24,HIGH,2026-10-24 02:11:10
+18,eve,NETWORK_BLOCKED,203.0.113.99,,Connection attempt terminated immediately by perimeter rule,CRITICAL,2026-10-24 02:12:00
+19,eve,DEVICE_BLOCKED,203.0.113.99,,Hardware fingerprint blacklisted after malicious exploit payload detected,CRITICAL,2026-10-24 02:13:00
+20,eve,PEP_DENY,203.0.113.99,sess-e601-eve-intrud,Policy Enforcement: Access denied to ADMIN_CONSOLE due to NETWORK_BLOCK_POLICY,CRITICAL,2026-10-24 02:14:00
+21,superadmin,SUPERKEY_GENERATE,127.0.0.1,sess-s505-superadmin,Generated single-use Super Recovery Key for locked user 'dave',HIGH,2026-10-24 11:30:00
+22,superadmin,SUPERKEY_UNLOCK,127.0.0.1,sess-s505-superadmin,Executed break-glass unlock for account 'dave' and reset login attempts,HIGH,2026-10-24 11:32:00

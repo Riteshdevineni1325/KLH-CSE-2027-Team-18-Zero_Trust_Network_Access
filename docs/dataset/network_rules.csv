@@ -1,0 +1,9 @@
+id,ip_or_cidr,classification,description,active,created_at
+1,192.168.1.0/24,OFFICE,HQ Corporate Ethernet & Secured Wi-Fi Subnet,true,2026-08-15 00:00:00
+2,10.100.0.0/16,OFFICE,Internal Corporate Datacenter & Engineering Network,true,2026-08-15 00:00:00
+3,127.0.0.1/32,OFFICE,Localhost Administrative Direct Management Interface,true,2026-08-15 00:00:00
+4,172.16.10.0/24,HOME,Approved Teleworker & Secure Remote Access Subnet,true,2026-09-01 08:00:00
+5,10.0.0.55/32,HOME,Designated Remote Home Workstation Static Route,true,2026-09-03 11:00:00
+6,203.0.113.0/24,BLOCKED,Identified Malicious External Reconnaissance Subnet,true,2026-09-24 09:00:00
+7,198.51.100.99/32,BLOCKED,Hostile IP flagged for Brute Force & Credential Stuffing,true,2026-09-24 09:10:00
+8,185.220.101.5/32,BLOCKED,Anonymizing Malicious Tor Exit Node,true,2026-10-01 10:00:00

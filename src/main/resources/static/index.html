@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CAR-ZTNA</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+
+<body>
+
+  <!-- ════════════════════════════════════════════════════════════
+     LOGIN / REGISTER
+════════════════════════════════════════════════════════════════ -->
+  <div id="view-login" class="view active">
+    <div class="auth-card">
+
+      <div class="brand">
+        <div class="brand-icon">🛡</div>
+        <h1>CAR-ZTNA</h1>
+        <p class="brand-sub">Context-Aware Zero Trust Network Access</p>
+      </div>
+
+      <div class="tab-row">
+        <button class="tab-btn active" id="btn-tab-login" onclick="switchAuthTab('login')">Sign In</button>
+        <button class="tab-btn" id="btn-tab-register" onclick="switchAuthTab('register')">Register</button>
+      </div>
+
+      <!-- Sign-in -->
+      <div id="tab-login">
+        <div class="form-group">
+          <label>Username</label>
+          <input id="login-username" type="text" placeholder="e.g. alice, superadmin" autocomplete="username" />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input id="login-password" type="password" placeholder="••••••••" autocomplete="current-password" />
+        </div>
+        <div id="login-ambient-info" class="ambient-badge">Detecting device context…</div>
+        <button class="btn-primary full" onclick="handleLogin()">Authenticate</button>
+        <div id="login-error" class="alert alert-error hidden"></div>
+      </div>
+
+      <!-- Register -->
+      <div id="tab-register" class="hidden">
+        <div class="form-group">
+          <label>Username</label>
+          <input id="reg-username" type="text" placeholder="Choose a username" />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input id="reg-password" type="password" placeholder="••••••••" />
+        </div>
+        <button class="btn-primary full" onclick="handleRegister()">Create Account</button>
+        <div id="reg-message" class="alert hidden"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+     USER PORTAL
+════════════════════════════════════════════════════════════════ -->
+  <div id="view-portal" class="view">
+
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="topbar-logo">CAR-ZTNA</span>
+        <span class="role-badge role-user" id="portal-role-badge">USER</span>
+      </div>
+      <div class="topbar-right">
+        <span class="ambient-pill" id="portal-network-badge">Network: —</span>
+        <span class="ambient-pill" id="portal-device-badge">Device: —</span>
+        <span class="topbar-user" id="portal-username"></span>
+        <button class="btn-ghost" onclick="handleLogout()">Sign out</button>
+      </div>
+    </header>
+
+    <main class="portal-main">
+
+      <div class="context-banner">
+        <div class="banner-title">
+          <h2>Protected Resources</h2>
+          <p>Every request is evaluated by the Policy Enforcement Point before access is granted.</p>
+        </div>
+        <div style="display:flex;gap:.5rem;align-items:center">
+          <button id="btn-request-admin" class="btn-primary" onclick="openRequestAdminModal()">Request Admin
+            Role</button>
+          <button class="btn-secondary" onclick="openPostureReport()">Context report</button>
+        </div>
+      </div>
+
+      <div class="resource-grid">
+
+        <div class="resource-card" onclick="requestProtectedResource('financial-data','FINANCIAL_DATA')">
+          <div class="resource-header">
+            <span class="res-icon">💰</span>
+            <span class="badge-sensitivity high">High</span>
+          </div>
+          <h3>Financial Accounts</h3>
+          <p>Ledgers, quarterly revenue and payroll accounts.</p>
+          <div class="res-policy-hint">Requires Office/Home + Trusted device</div>
+          <div class="resource-status" id="status-FINANCIAL_DATA">Click to evaluate</div>
+        </div>
+
+        <div class="resource-card" onclick="requestProtectedResource('internal-documents','INTERNAL_DOCUMENTS')">
+          <div class="resource-header">
+            <span class="res-icon">📄</span>
+            <span class="badge-sensitivity medium">Medium</span>
+          </div>
+          <h3>Internal Documents</h3>
+          <p>Architecture specs and operational runbooks.</p>
+          <div class="res-policy-hint">Requires Office or Trusted home</div>
+          <div class="resource-status" id="status-INTERNAL_DOCUMENTS">Click to evaluate</div>
+        </div>
+
+        <div class="resource-card" onclick="requestProtectedResource('employee-directory','EMPLOYEE_DIRECTORY')">
+          <div class="resource-header">
+            <span class="res-icon">👥</span>
+            <span class="badge-sensitivity low">Low</span>
+          </div>
+          <h3>Employee Directory</h3>
+          <p>Staff contact details and department channels.</p>
+          <div class="res-policy-hint">Requires authenticated identity</div>
+          <div class="resource-status" id="status-EMPLOYEE_DIRECTORY">Click to evaluate</div>
+        </div>
+
+        <div class="resource-card" onclick="requestProtectedResource('hr-records','HR_RECORDS')">
+          <div class="resource-header">
+            <span class="res-icon">🗂</span>
+            <span class="badge-sensitivity high">High</span>
+          </div>
+          <h3>HR Records</h3>
+          <p>Personnel evaluations and sensitive employee files.</p>
+          <div class="res-policy-hint">Requires Office + Trusted device</div>
+          <div class="resource-status" id="status-HR_RECORDS">Click to evaluate</div>
+        </div>
+
+        <div class="resource-card" onclick="requestProtectedResource('source-code-repo','SOURCE_CODE_REPO')">
+          <div class="resource-header">
+            <span class="res-icon">💾</span>
+            <span class="badge-sensitivity high">High</span>
+          </div>
+          <h3>Source Code Repository</h3>
+          <p>Core cryptographic engine and ZTNA backend repositories.</p>
+          <div class="res-policy-hint">Requires Trusted device</div>
+          <div class="resource-status" id="status-SOURCE_CODE_REPO">Click to evaluate</div>
+        </div>
+      </div><!-- /resource-grid -->
+
+      <!-- Resource evaluation result panel -->
+      <div id="resource-response-box" class="hidden"
+        style="margin-top:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem">
+          <span id="response-title" style="font-size:.9375rem;font-weight:600;font-family:monospace"></span>
+          <button class="btn-ghost" style="font-size:.75rem;padding:.25rem .6rem" onclick="closeResponseBox()">✕
+            Close</button>
+        </div>
+        <pre id="response-body"
+          style="font-size:.75rem;background:var(--surface-2);border-radius:var(--radius-sm);padding:1rem;overflow:auto;max-height:260px;white-space:pre-wrap;word-break:break-all;color:var(--text-1);margin:0"></pre>
+      </div>
+
+    </main>
+  </div><!-- /view-portal -->
+
+  <!-- ════════════════════════════════════════════════════════════
+     ADMIN DASHBOARD
+════════════════════════════════════════════════════════════════ -->
+  <div id="view-admin" class="view">
+
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="topbar-logo">CAR-ZTNA</span>
+        <span class="role-badge role-admin">Admin</span>
+      </div>
+      <div class="topbar-right">
+        <span class="ambient-pill" id="admin-network-badge">Network: —</span>
+        <span class="ambient-pill" id="admin-device-badge">Device: —</span>
+        <button class="btn-secondary" onclick="openPostureReport()">Context Report</button>
+        <span class="topbar-user" id="admin-username"></span>
+        <button class="btn-ghost" onclick="handleLogout()">Sign out</button>
+      </div>
+    </header>
+
+    <main class="dashboard-main">
+
+      <!-- Device Trust Restriction Banner -->
+      <div id="admin-device-lock-banner" class="alert alert-warn hidden" style="margin-bottom:1.5rem"></div>
+
+      <div id="admin-stats-container" class="stats-grid"></div>
+
+      <div class="dash-tabs">
+        <button class="dash-tab active" id="tabbtn-users" onclick="switchAdminTab('users')">Users</button>
+        <button class="dash-tab" id="tabbtn-promotions" onclick="switchAdminTab('promotions')">Admin Requests</button>
+        <button class="dash-tab" id="tabbtn-superkey" onclick="switchAdminTab('superkey')">Super Key</button>
+        <button class="dash-tab" id="tabbtn-networks" onclick="switchAdminTab('networks')">Network Rules</button>
+        <button class="dash-tab" id="tabbtn-policies" onclick="switchAdminTab('policies')">Policies</button>
+        <button class="dash-tab" id="tabbtn-sessions" onclick="switchAdminTab('sessions')">Sessions</button>
+        <button class="dash-tab" id="tabbtn-logs" onclick="switchAdminTab('logs')">Audit Logs</button>
+      </div>
+
+      <!-- Users -->
+      <section id="admin-tab-users" class="dash-panel">
+        <div class="panel-toolbar">
+          <input type="text" placeholder="Filter users…" oninput="filterTable('table-users', this.value)" />
+          <button class="btn-sm" onclick="loadAdminUsers()">Refresh</button>
+        </div>
+        <div class="table-wrap">
+          <table id="table-users">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Locked</th>
+                <th>Lock Reason</th>
+                <th>Last Login</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Admin Promotion Requests -->
+      <section id="admin-tab-promotions" class="dash-panel hidden">
+        <div class="panel-toolbar" style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <h3 style="margin:0;font-size:1rem;color:var(--text-1)">User Admin Promotion Requests</h3>
+            <p class="text-muted" style="margin:0;font-size:.8125rem">Requires dual-administrator authorization (second
+              admin password verification) to promote a user to ADMIN.</p>
+          </div>
+          <button class="btn-sm" onclick="loadAdminPromotionRequests()">Refresh</button>
+        </div>
+        <div class="table-wrap">
+          <table id="table-promotions">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Requester</th>
+                <th>Reason</th>
+                <th>Requested At</th>
+                <th>Status</th>
+                <th>Approvers</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Super Key -->
+      <section id="admin-tab-superkey" class="dash-panel hidden">
+        <div class="superkey-intro">
+          <h3>Session-Bound Super Key Recovery</h3>
+          <p>Generates a 4-digit, single-use, 10-minute recovery key bound to your session.
+            Only the SHA-256 hash is stored in the database. No target username required at generation.</p>
+        </div>
+        <div class="grid-2col">
+          <div class="card-box">
+            <h4>1. Generate Key</h4>
+            <p>A cryptographically secure 4-digit code will be issued for your active session.</p>
+            <button class="btn-primary" onclick="generateSuperKey()">Generate Super Key</button>
+            <div id="sk-generate-result" class="alert hidden" style="margin-top:1rem"></div>
+          </div>
+          <div class="card-box">
+            <h4>2. Redeem &amp; Unlock Account</h4>
+            <p>Enter the locked username and the 4-digit code to unlock the account.</p>
+            <div class="form-group">
+              <label>Target Username</label>
+              <input type="text" id="sk-redeem-username" placeholder="e.g. eve" />
+            </div>
+            <div class="form-group">
+              <label>4-Digit Key</label>
+              <input type="text" id="sk-redeem-key" maxlength="4" placeholder="0000"
+                style="letter-spacing:0.35rem;font-size:1.1rem;font-weight:600;text-align:center" />
+            </div>
+            <button class="btn-primary" onclick="redeemSuperKey()">Redeem &amp; Unlock</button>
+            <div id="sk-redeem-result" class="alert hidden" style="margin-top:1rem"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Network Rules -->
+      <section id="admin-tab-networks" class="dash-panel hidden">
+        <div class="panel-toolbar">
+          <button class="btn-primary" onclick="openAddNetworkModal()">Add Rule</button>
+          <button class="btn-sm" onclick="loadAdminNetworks()">Refresh</button>
+        </div>
+        <div class="table-wrap">
+          <table id="table-networks">
+            <thead>
+              <tr>
+                <th>IP / CIDR</th>
+                <th>Classification</th>
+                <th>Description</th>
+                <th>Active</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Policies -->
+      <section id="admin-tab-policies" class="dash-panel hidden">
+        <div class="panel-toolbar">
+          <button class="btn-primary" onclick="openAddPolicyModal()">Create Policy</button>
+          <button class="btn-sm" onclick="loadAdminPolicies()">Refresh</button>
+        </div>
+        <div class="table-wrap">
+          <table id="table-policies">
+            <thead>
+              <tr>
+                <th>Policy Name</th>
+                <th>Resource</th>
+                <th>Role</th>
+                <th>Network</th>
+                <th>Device</th>
+                <th>Effect</th>
+                <th>Priority</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Sessions -->
+      <section id="admin-tab-sessions" class="dash-panel hidden">
+        <div class="panel-toolbar">
+          <button class="btn-sm" onclick="loadAdminSessions()">Refresh</button>
+        </div>
+        <div class="table-wrap">
+          <table id="table-sessions">
+            <thead>
+              <tr>
+                <th>Session ID</th>
+                <th>User</th>
+                <th>Role</th>
+                <th>IP Address</th>
+                <th>Device</th>
+                <th>Last Activity</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Audit Logs -->
+      <section id="admin-tab-logs" class="dash-panel hidden">
+        <div class="panel-toolbar">
+          <input type="text" placeholder="Filter logs…" oninput="filterTable('table-logs', this.value)" />
+          <select id="log-severity-filter" onchange="loadAdminLogs()">
+            <option value="">All severities</option>
+            <option value="INFO">INFO</option>
+            <option value="WARN">WARN</option>
+            <option value="HIGH">HIGH</option>
+            <option value="CRITICAL">CRITICAL</option>
+          </select>
+          <button class="btn-sm" onclick="loadAdminLogs()">Refresh</button>
+        </div>
+        <div class="table-wrap">
+          <table id="table-logs">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>User</th>
+                <th>Event</th>
+                <th>Severity</th>
+                <th>IP</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+
+    </main><!-- /dashboard-main -->
+
+    <!-- Add Network Rule modal -->
+    <div id="modal-network" class="modal hidden">
+      <div class="modal-content modal-sm">
+        <div class="modal-header">
+          <h3>Add Network Rule</h3>
+          <button class="modal-close" onclick="closeModal('modal-network')">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>IP Address or CIDR</label>
+            <input id="net-ip" type="text" placeholder="192.168.1.0/24 or 10.0.0.5" />
+          </div>
+          <div class="form-group">
+            <label>Classification</label>
+            <select id="net-classification">
+              <option value="OFFICE">OFFICE</option>
+              <option value="HOME">HOME</option>
+              <option value="BLOCKED">BLOCKED</option>
+              <option value="UNKNOWN">UNKNOWN</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <input id="net-desc" type="text" placeholder="e.g. Corporate HQ subnet" />
+          </div>
+          <button class="btn-primary full" onclick="submitNetworkRule()">Save Rule</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create Policy modal -->
+    <div id="modal-policy" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Create Access Policy</h3>
+          <button class="modal-close" onclick="closeModal('modal-policy')">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Policy Name</label>
+            <input id="pol-name" type="text" placeholder="e.g. Financial Remote Access" />
+          </div>
+          <div class="form-group">
+            <label>Resource</label>
+            <select id="pol-resource">
+              <option value="FINANCIAL_DATA">FINANCIAL_DATA</option>
+              <option value="INTERNAL_DOCUMENTS">INTERNAL_DOCUMENTS</option>
+              <option value="EMPLOYEE_DIRECTORY">EMPLOYEE_DIRECTORY</option>
+              <option value="HR_RECORDS">HR_RECORDS</option>
+              <option value="SOURCE_CODE_REPO">SOURCE_CODE_REPO</option>
+              <option value="ADMIN_CONSOLE">ADMIN_CONSOLE</option>
+              <option value="NETWORK_TOPOLOGY">NETWORK_TOPOLOGY</option>
+            </select>
+          </div>
+          <div class="grid-2col">
+            <div class="form-group">
+              <label>Required Role</label>
+              <select id="pol-role">
+                <option value="ANY">ANY</option>
+                <option value="USER">USER</option>
+                <option value="ADMIN">ADMIN</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Allowed Network</label>
+              <select id="pol-network">
+                <option value="ANY">ANY</option>
+                <option value="OFFICE">OFFICE</option>
+                <option value="HOME">HOME</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid-2col">
+            <div class="form-group">
+              <label>Required Device</label>
+              <select id="pol-device">
+                <option value="ANY">ANY</option>
+                <option value="TRUSTED">TRUSTED</option>
+                <option value="UNREGISTERED">UNREGISTERED</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Effect</label>
+              <select id="pol-effect">
+                <option value="ALLOW">ALLOW</option>
+                <option value="DENY">DENY — overrides ALLOW</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Priority <small style="text-transform:none;letter-spacing:0">(lower = higher
+                precedence)</small></label>
+            <input id="pol-priority" type="number" value="10" min="1" />
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <input id="pol-desc" type="text" placeholder="Brief rationale" />
+          </div>
+          <button class="btn-primary full" onclick="submitPolicy()">Save Policy</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /view-admin -->
+
+  <!-- Global Context report modal (accessible from User Portal and Admin Dashboard) -->
+  <div id="modal-posture-report" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Zero Trust Context Report</h3>
+        <button class="modal-close" onclick="closeModal('modal-posture-report')">✕</button>
+      </div>
+      <div id="posture-report-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Request Admin Role modal (User Portal) -->
+  <div id="modal-request-admin" class="modal hidden">
+    <div class="modal-content modal-sm">
+      <div class="modal-header">
+        <h3>Request Administrator Access</h3>
+        <button class="modal-close" onclick="closeModal('modal-request-admin')">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:.8125rem;color:var(--text-2);margin-bottom:1rem">
+          Submitting this request will flag your account for administrative review. To grant the ADMIN role, an active
+          administrator must accept and verify another administrator's password (dual authorization).
+        </p>
+        <div class="form-group">
+          <label>Reason / Business Justification</label>
+          <textarea id="req-admin-reason" rows="3"
+            style="width:100%;padding:.6rem;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-1);font-family:inherit;font-size:.875rem"
+            placeholder="e.g. System security audit and policy configuration"></textarea>
+        </div>
+        <div id="req-admin-msg" class="alert hidden" style="margin-bottom:1rem"></div>
+        <button class="btn-primary full" onclick="submitAdminPromotionRequest()">Submit Request</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dual Admin Approval Modal (Admin Dashboard) -->
+  <div id="modal-dual-admin-approval" class="modal hidden">
+    <div class="modal-content modal-sm">
+      <div class="modal-header">
+        <h3>Dual Admin Authorization</h3>
+        <button class="modal-close" onclick="closeModal('modal-dual-admin-approval')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-warn" style="font-size:.8125rem;margin-bottom:1rem">
+          <strong>Dual-Control Requirement</strong><br>
+          Promoting a user to ADMIN requires verification from a <strong>second administrator</strong>. Please provide
+          the username and password of another active administrator.
+        </div>
+        <input type="hidden" id="dual-auth-target-username" />
+        <input type="hidden" id="dual-auth-target-role" />
+        <input type="hidden" id="dual-auth-request-id" />
+        <div class="form-group">
+          <label>Target User</label>
+          <input id="dual-auth-target-display" type="text" disabled style="opacity:.8;background:var(--surface-2)" />
+        </div>
+        <div class="form-group">
+          <label>Second Administrator Username</label>
+          <input id="dual-auth-second-admin-user" type="text" placeholder="e.g. superadmin" />
+        </div>
+        <div class="form-group">
+          <label>Second Administrator Password</label>
+          <input id="dual-auth-second-admin-pass" type="password" placeholder="••••••••" />
+        </div>
+        <div id="dual-auth-msg" class="alert hidden" style="margin-bottom:1rem"></div>
+        <button class="btn-primary full" onclick="confirmDualAdminPromotion()">Verify &amp; Promote to ADMIN</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

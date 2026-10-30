@@ -1,0 +1,14 @@
+id,policy_name,resource_name,required_role,allowed_network,required_device_status,effect,priority,enabled,description,created_at,updated_at
+1,Employee Directory — All Users,EMPLOYEE_DIRECTORY,ANY,ANY,ANY,ALLOW,50,true,All authenticated users can view the employee directory from any approved network,2026-08-15 00:00:00,2026-08-15 00:00:00
+2,Internal Docs — Office,INTERNAL_DOCUMENTS,USER,OFFICE,ANY,ALLOW,40,true,Internal documents accessible from the office network by standard users,2026-08-15 00:00:00,2026-08-15 00:00:00
+3,Internal Docs — Trusted Home,INTERNAL_DOCUMENTS,USER,HOME,TRUSTED,ALLOW,40,true,Internal documents accessible from home network on trusted hardware,2026-08-15 00:00:00,2026-08-15 00:00:00
+4,Financial Data — Office Trusted,FINANCIAL_DATA,USER,OFFICE,TRUSTED,ALLOW,20,true,Financial ledgers access permitted only from office network on trusted hardware,2026-08-15 00:00:00,2026-08-15 00:00:00
+5,Financial Data — Home Trusted,FINANCIAL_DATA,USER,HOME,TRUSTED,ALLOW,20,true,Financial data access from home requires strictly verified trusted devices,2026-08-15 00:00:00,2026-08-15 00:00:00
+6,HR Records — Office Trusted,HR_RECORDS,USER,OFFICE,TRUSTED,ALLOW,20,true,HR records access restricted to office network and verified corporate hardware,2026-08-15 00:00:00,2026-08-15 00:00:00
+7,Source Code — Trusted Device,SOURCE_CODE_REPO,USER,ANY,TRUSTED,ALLOW,30,true,Proprietary source code repository requires verified trusted developer workstation,2026-08-15 00:00:00,2026-08-15 00:00:00
+8,Admin Console — Admin Trusted,ADMIN_CONSOLE,ADMIN,ANY,TRUSTED,ALLOW,10,true,Administrative console access granted to ADMIN role using trusted hardware,2026-08-15 00:00:00,2026-08-15 00:00:00
+9,Admin Console — Admin Office,ADMIN_CONSOLE,ADMIN,OFFICE,ANY,ALLOW,10,true,Administrative console access granted to ADMIN within secured office perimeter,2026-08-15 00:00:00,2026-08-15 00:00:00
+10,Network Topology — Admin Office Trusted,NETWORK_TOPOLOGY,ADMIN,OFFICE,TRUSTED,ALLOW,10,true,Network topology management strictly requires ADMIN role office network and trusted device,2026-08-15 00:00:00,2026-08-15 00:00:00
+11,Audit Logs — Security Analyst Trusted,AUDIT_LOGS,SECURITY_ANALYST,ANY,TRUSTED,ALLOW,15,true,Security logs inspection allowed for security analysts on trusted devices,2026-09-02 10:00:00,2026-09-02 10:00:00
+12,Deny Unregistered — Financial,FINANCIAL_DATA,ANY,ANY,UNREGISTERED,DENY,5,true,Explicit Deny: Block all financial data requests originating from unregistered devices,2026-08-15 00:00:00,2026-08-15 00:00:00
+13,Deny External — Network Topology,NETWORK_TOPOLOGY,ANY,UNKNOWN,ANY,DENY,2,true,Explicit Deny: Prohibit any network topology queries from unknown/external networks,2026-08-15 00:00:00,2026-08-15 00:00:00
