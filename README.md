@@ -283,11 +283,29 @@ The CAR-ZTNA application is being developed using Spring Boot and PostgreSQL. Au
 
 ## 13. References
 
-1. S. Rose et al., "Zero Trust Architecture," NIST SP 800-207, 2020.
-2. C. Buck et al., "Never Trust, Always Verify: A Multivocal Literature Review on Current Knowledge and Research Gaps of Zero-Trust," *Computers & Security*, 2021.
-3. N. F. Syed et al., "Zero Trust Architecture (ZTA): A Comprehensive Survey," *IEEE Access*, 2022.
-4. P. García-Teodoro et al., "A Novel Zero-Trust Network Access Control Scheme Based on the Security Profile of Devices and Users," *Computer Networks*, 2022.
-5. S. Xiao et al., "SoK: Context and Risk Aware Access Control for Zero Trust Systems," *Security and Communication Networks*, 2022.
+[1] S. Rose, O. Borchert, S. Mitchell, and S. Connelly, “Zero Trust Architecture,” NIST Special Publication 800-207, Aug. 2020. https://doi.org/10.6028/NIST.SP.800-207
+
+[2] C. Buck, C. Olenberger, A. Schweizer, F. Völter, and T. Eymann, “Never trust, always verify: A multivocal literature review on current knowledge and research gaps of zero-trust,” Computers & Security, vol. 110, Art. no. 102436, 2021. https://doi.org/10.1016/j.cose.2021.102436
+
+[3] J. Junquera-Sánchez, C. Cilleruelo, L. De-Marcos, and J.-J. Martinez-Herráiz, “Access control beyond authentication,” Security and Communication Networks, vol. 2021, Art. no. 8146553, 2021. https://doi.org/10.1155/2021/8146553
+
+[4] B. Sengupta and A. Lakshminarayanan, “DistriTrust: Distributed and low-latency access validation in zero-trust architecture,” Journal of Information Security and Applications, vol. 63, Art. no. 103023, 2021. https://doi.org/10.1016/j.jisa.2021.103023. 
+Request PDF
+
+
+[5] N. F. Syed et al., “Zero Trust Architecture (ZTA): A comprehensive survey,” IEEE Access, vol. 10, pp. 57143–57179, 2022. https://doi.org/10.1109/ACCESS.2022.3174679
+
+[6] S. Xiao et al., “SoK: Context and risk aware access control for zero trust systems,” Security and Communication Networks, vol. 2022, Art. no. 7026779, 2022. https://doi.org/10.1155/2022/7026779
+
+[7] P. García-Teodoro et al., “A novel zero-trust network access control scheme based on the security profile of devices and users,” Computer Networks, vol. 212, Art. no. 109068, 2022. https://doi.org/10.1016/j.comnet.2022.109068
+
+[8] Y. He et al., “A survey on zero trust architecture: Challenges and future trends,” Wireless Communications and Mobile Computing, vol. 2022, Art. no. 6476274, 2022. https://doi.org/10.1155/2022/6476274
+
+[9] N. Nahar, K. Andersson, O. Schelén, and S. Saguna, “A survey on zero trust architecture: Applications and challenges of 6G networks,” IEEE Access, 2024. https://doi.org/10.1109/ACCESS.2024.3425350
+
+[10] S. Son, D. Kwon, S. Lee, H. Kwon, and Y. Park, “A zero-trust authentication scheme with access control for 6G-enabled IoT environments,” IEEE Access, 2024. https://doi.org/10.1109/ACCESS.2024.3484522
+
+[11] S. Ameer, L. Praharaj, R. Sandhu, S. Bhatt, and M. Gupta, “ZTA-IoT: A novel architecture for zero-trust in IoT systems and an ensuing usage control model,” ACM Transactions on Privacy and Security, 2024. https://doi.org/10.1145/3671147
 
 ---
 
