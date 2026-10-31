@@ -17,7 +17,7 @@
 |---|---|---|
 | 1 | Devineni Ritesh | 2320030067 |
 | 2 | Y. Hemanth Reddy | 2320030468 |
-| 3 | K. Uday | 2320030429 |
+| 3 | M. Uday Kiran | 2320030429 |
 
 **Project Supervisor:** Dr. K. Swanthana
 
